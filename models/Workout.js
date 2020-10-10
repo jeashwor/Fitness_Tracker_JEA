@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+// Create basic Model requiring data points that are common with both exercise types
 const WorkoutSchema = new Schema({
     date: {
         type: Date,
@@ -44,15 +45,15 @@ const WorkoutSchema = new Schema({
 },
     {
         toJSON: {
-            // include virtual properties when data is requested
+            // Mongoose option to include virtual properties when data is requested
             virtuals: true
         }
     }
 );
 
-// Add dynamically created property to schema
+// Add virtual property to schema
 WorkoutSchema.virtual("totalDuration").get(function() {
-    // "reduce" array of exercises down to just the sum of their durations
+    // use the reduce method to narrow down the array of exercises to just the sum of their durations
     return this.exercises.reduce((total, exercise) => {
       return total + exercise.duration;
     }, 0);
